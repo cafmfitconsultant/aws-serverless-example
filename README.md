@@ -1,0 +1,1 @@
+# aws-serverless-localstack-example

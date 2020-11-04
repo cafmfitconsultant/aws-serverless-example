@@ -1,0 +1,16 @@
+awslocal sqs list-queues
+awslocal sqs receive-message --queue-url http://localhost:4566/000000000000/GeneratedReportQueue --attribute-names All --message-attribute-names All --max-number-of-messages 10
+awslocal sns list-topics
+awslocal sns publish --topic-arn "arn:aws:sns:us-east-1:000000000000:topic-609cc434" --message "working baby"
+awslocal logs describe-log-groups --query logGroups[*].logGroupName
+awslocal logs describe-log-streams --log-group-name "/aws/lambda/aws-serverless-localstack-example-local-ReadQueueMessageLambda" --query logStreams[*].logStreamName
+awslocal logs describe-log-streams --log-group-name "/aws/lambda/aws-serverless-localstack-example-local-GenerateReportLambda" --query logStreams[*].logStreamName
+
+
+awslocal logs get-log-events --log-group-name "/aws/lambda/aws-serverless-localstack-example-local-ReadQueueMessageLambda"  --log-stream-name "2020/12/08/[LATEST]e3409a90"
+awslocal logs get-log-events --log-group-name "/aws/lambda/aws-serverless-localstack-example-local-GenerateReportLambda"  --log-stream-name  "2020/12/08/[LATEST]c5b01b0b"
+
+awslocal logs delete-log-group --log-group-name "/aws/lambda/aws-serverless-localstack-example-local-GenerateReportLambda"
+awslocal logs delete-log-group --log-group-name "/aws/lambda/aws-serverless-localstack-example-local-ReadQueueMessageLambda"
+
+awslocal sqs send-message --queue-url http://localhost:4566/000000000000/GeneratedReportQueue --message-body "Information about the largest city in Any Region." --delay-seconds 10
